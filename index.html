@@ -41,28 +41,29 @@ The following steps were taken:</p>
 
 <ol>
 <li>The data was filtered to leave only variables describing accelerators (except the outcome variable).</li>
-<li>
-<p>The summarized data was analyzed.</p>
-
-<p><code>&gt;summary(training)</code>
-<img src="http://imagizer.imageshack.us/v2/xq90/924/nEVm1W.png" alt=""></p>
-
-<p><code>M&lt;-abs(cor(training_sd[,-17]))
-diag(M)&lt;-0
-which(M&gt;0.8,arr.ind=TRUE)</code>
-<img src="http://imagizer.imageshack.us/v2/xq90/922/P1svIV.png" alt=""></p>
-</li>
+<li>The summarized data was analyzed.</li>
 </ol>
 
-<p>Three things were noted:</p>
+<pre><code>&gt;summary(training)
+</code></pre>
 
-<ul>
-<li><p>For variables ‘var_total_accel_belt’, ‘var_accel_arm’, ‘var_accel_dumbbell’, ‘var_accel_forearm’ very high number of values are missing.</p></li>
-<li><p>For variables "accel_belt_x","accel_belt_z", "accel_arm_x", "accel_arm_y","accel_arm_z", "accel_dumbbell_x","accel_dumbbell_z",  "accel_forearm_x",  "accel_forearm_z"
-standard deviation relatively higher than mean.</p></li>
-<li>
-<p>Variables "total_accel_belt", "accel_belt_y" and "accel_belt_z" are correlated with each other.
-Based on the above:</p>
+<p><img src="http://imagizer.imageshack.us/v2/xq90/924/nEVm1W.png" alt=""></p>
+
+<pre><code>M&lt;-abs(cor(training_sd[,-17]))
+diag(M)&lt;-0
+which(M&gt;0.8,arr.ind=TRUE)
+</code></pre>
+
+<p><img src="http://imagizer.imageshack.us/v2/xq90/922/P1svIV.png" alt=""></p>
+
+<pre><code>Three things were noted: 
+- For variables ‘var_total_accel_belt’, ‘var_accel_arm’, ‘var_accel_dumbbell’, ‘var_accel_forearm’ very high number of values are missing. 
+- For variables "accel_belt_x","accel_belt_z", "accel_arm_x", "accel_arm_y","accel_arm_z", "accel_dumbbell_x","accel_dumbbell_z",  "accel_forearm_x",  "accel_forearm_z"
+standard deviation relatively higher than mean.
+- Variables "total_accel_belt", "accel_belt_y" and "accel_belt_z" are correlated with each other.
+</code></pre>
+
+<p>Based on the above:</p>
 
 <ol>
 <li>Variables with high number of NA were excluded from data set. This way the bias was reduced.</li>
@@ -71,28 +72,28 @@ Based on the above:</p>
 <li>Several models relatively easy to compute were tried - i.e. linear discriminant analysis, CART and bagged CART.
 Bagged CART turned out to have the best accuracy while cross validated on the testing set - it was 0.9003.</li>
 </ol>
-</li>
-</ul>
 
-<p>`&gt; modFit_treebag
-Bagged CART </p>
+<pre><code>&gt; modFit_treebag
+Bagged CART 
 
-<p>11776 samples
+11776 samples
    15 predictor
-    5 classes: 'A', 'B', 'C', 'D', 'E' </p>
+    5 classes: 'A', 'B', 'C', 'D', 'E' 
 
-<p>No pre-processing
+No pre-processing
 Resampling: Bootstrapped (25 reps) 
 Summary of sample sizes: 11776, 11776, 11776, 11776, 11776, 11776, ... 
-Resampling results</p>
+Resampling results
 
-<p>Accuracy   Kappa      Accuracy SD  Kappa SD<br>
-  0.8762355  0.8433116  0.005550699  0.007022629`</p>
+  Accuracy   Kappa      Accuracy SD  Kappa SD   
+  0.8762355  0.8433116  0.005550699  0.007022629
+</code></pre>
 
-<p>The out-of-sample error was measured by percentage of predictions were incorrect on the testing sample. This value was ~10%.</p>
+<p>The out-of-sample error was measured by percentage of predictions were incorrect on the testing sample. This value was ~10%.
+```&gt; print(sum(pred_treebag!=testPC$classe)/length(testPC$classe))
+[1] 0.09966862</p>
 
-<p><code>&gt; print(sum(pred_treebag!=testPC$classe)/length(testPC$classe))
-[1] 0.09966862</code></p>
+<pre><code></code></pre>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/mknycha/machineLearning-project">Machine Learning project</a> is maintained by <a href="https://github.com/mknycha">mknycha</a>.</span>
